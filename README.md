@@ -84,7 +84,7 @@ While this repository primarily contains my solutions, I welcome contributions i
 
 If you have any questions, suggestions, or just want to connect, feel free to reach out:
 
-- GitHub: [YourUsername](https://github.com/yourusername)
+- GitHub: [arindal1](https://github.com/arindal1)
 - LinkedIn: [arindalchar](https://www.linkedin.com/in/arindalchar/)
 
 ---
