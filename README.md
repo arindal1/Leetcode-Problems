@@ -10,7 +10,7 @@ Welcome to my LeetCode Problem Solutions repository! Here, you'll find my soluti
 
 ## Repository Structure
 
-The repository is organized based on the difficulty levels of the problems and contests. Each category has its own directory containing the solutions to the corresponding problems. The structure is as follows:
+The repository is organized based on the difficulty levels of the problems and contests. Each category has its own directory containing the solutions to the corresponding problems. The structure is as follows: 
 
 ```
 - Easy/
