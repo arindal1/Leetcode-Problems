@@ -2,7 +2,7 @@
 
 ![LeetCode Logo](https://assets.leetcode.com/static_assets/public/webpack_bundles/images/logo-dark.e99485d9b.svg)
 
-Welcome to my LeetCode Problem Solutions repository! Here, you'll find my solutions to various problems from the LeetCode Problem Section, categorized by difficulty levels and contests. This repository serves as a collection of my progress and learning journey on LeetCode.
+Welcome to my LeetCode Problem Solutions repository! Here, you'll find my solutions to various problems from the LeetCode Problem Section, categorized by difficulty levels and contests. This repository serves as a collection of my progress and learning journey on LeetCode .
 
 ## About LeetCode
 
