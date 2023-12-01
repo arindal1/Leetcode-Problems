@@ -1,78 +1,47 @@
 class Solution {
 public:
-    const static int N = 1e5 + 2;
-int INF = 1e9;
-int tree[4 * N], lazy[4 * N];
-void push(int node)
-{
-    if(lazy[node]!=-1)
-    {
-       tree[2*node] =tree[2*node+1]=lazy[node];
-       lazy[2*node] = lazy[2*node+1]=lazy[node];
-       lazy[node]=-1;
+    unordered_map<int, int> mp; //used for compression
+    int tree[8000]; //tree[i] holds the maximum height for its corresponding range
+    
+    void update(int t, int low, int high, int i, int j, int h){
+        if(i>j)
+            return;
+        if(low==high){
+            tree[t]=h;
+            return;
+        }
+        int mid=low+((high-low)/2);
+        update(2*t, low, mid, i, min(mid, j), h);
+        update(2*t+1, mid+1, high, max(mid+1, i), j, h);
+        tree[t]=max(tree[2*t], tree[2*t+1]);
     }
-}
-void update(int node, int tl, int tr, int l, int r, int updatedVal)
-{
-    if (tl > tr)return;
-    else if (l<=tl && tr <=r)
-    {
-        tree[node] = updatedVal;
-        lazy[node] = updatedVal; // ye value update krni hai tl to tr segment of segment tree.
+    
+    int query(int t, int low, int high, int i, int j){
+        if(i>j)
+            return -2e9;
+        if(low==i && high==j)
+            return tree[t];
+        int mid=low+((high-low)/2);
+        return max(query(2*t, low, mid, i, min(mid, j)), query(2*t+1, mid+1, high, max(mid+1, i), j));
     }
-    else if(tl==tr && (tl<l||tr>r)) return;
-    else
-    {
-        push(node);
-        int tm = (tl + tr) / 2;
-        update(2*node, tl, tm, l,r, updatedVal);
-        update(2*node + 1, tm + 1, tr,l, r, updatedVal);
-        tree[node] = max(tree[2*node], tree[2*node+ 1]);
+    
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
+        set<int> s;
+        memset(tree, 0, sizeof(tree));
+        for(auto it: positions){
+            s.insert(it[0]);
+            s.insert(it[0]+it[1]-1);
+        }
+        int compressed=1, n=positions.size();
+        vector<int> ans(n);
+        for(auto it: s)
+            mp[it]=compressed++;
+        for(int i=0; i<n; i++){
+            int start=positions[i][0], end=positions[i][1]+start-1, h=positions[i][1];
+            int curr=query(1, 1, 2*n, mp[start], mp[end]), ncurr=curr+h;
+            update(1, 1, 2*n, mp[start], mp[end], ncurr);
+            ans[i]=tree[1]; 
+        }
+        return ans;
     }
-}
-int query(int node, int tl, int tr, int l, int r)
-{
-    if (tl >tr)return -INF;
-    if (l <= tl && tr <= r)return tree[node];
-    if(tl==tr) return -INF;
-    push(node);
-    int tm = (tl + tr) / 2;
-    int q1=query(2*node, tl, tm, l,r);
-    int q2=query(2*node + 1, tm + 1, tr,l, r);
-    return max(q1,q2);
-}
-
- vector<int> fallingSquares(vector<vector<int>>& positions) 
-  {
-      memset(tree,0,sizeof(tree));
-      memset(lazy,0,sizeof(lazy));
-      memset(a,0,sizeof(a));
-
-      unordered_map<int, int> index;
-      set<int> sortedCoords;
-      for (const auto& pos : positions) 
-      {
-          sortedCoords.insert(pos[0]);
-          sortedCoords.insert(pos[0] + pos[1] - 1);
-      }
-      int compressedIdx = 1;
-      for (auto it:sortedCoords) 
-      {
-          index[it] = compressedIdx;
-          compressedIdx++;
-      }  
-      int n= compressedIdx;
-      int best = 0;
-      vector<int> ans;  
-      for (const auto& pos : positions) 
-      {
-          int l = index[pos[0]];
-          int r = index[pos[0] + pos[1] - 1];
-          int mxinlr=query(1,1,n,l,r);
-          update(1,1,n,l,r,mxinlr+pos[1]);
-          int temp=query(1,1,n,1,n);
-          ans.push_back(temp);
-      }
-      return ans;
-  }
 };
