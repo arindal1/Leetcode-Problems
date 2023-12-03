@@ -1,32 +1,52 @@
 class Solution {
-	int[] pool;
-    int poolLen;
-    Random seed;
+public:
+
+    int approach;
+
+    int n, m;
+
+    unordered_set<int> hash_set;
+
+    vector<int> whitelist;
+
+
+    Solution(int nn, vector<int>& blacklist) {
+        n = nn;
+        m = blacklist.size();
+        for(auto it : blacklist) {
+            hash_set.insert(it);
+        }
+        if(m * 2 < n) {
+            approach = 1;
+        }
+        else {
+            approach = 2;
+            for(int i = 0; i < n; i++) {
+                if(hash_set.find(i) == hash_set.end()) {
+                    whitelist.push_back(i);
+                }
+            }
+        }
+    }
     
-    public Solution(int n, int[] blacklist) {
-    	Arrays.sort(blacklist);
-    	this.seed = new Random();
-    	this.pool = new int[n];
-		this.poolLen = n - blacklist.length;
-    	/* init as id map */
-   		for (int i = 0; i < this.pool.length; i++) {
-   			this.pool[i] = i;
-   		}
-   		/* two pointer to partition blacklist at pool end */
-   		int poolEnd = this.pool.length-1;
-   		for (int i = blacklist.length-1; i >= 0; i--) {
-   			final int val = blacklist[i];
-   			/* still in id map => index pool[val] */
-   			/* swap with the other pointer */
-   			int temp = this.pool[poolEnd];
-   			this.pool[poolEnd] = this.pool[val];
-   			this.pool[val] = temp;
-   			poolEnd--;
-   		}
-   	}
-   
-   	public int pick() {
-   		int i = this.seed.nextInt(this.poolLen);
-   		return this.pool[i];
-   	}
-}
+    int pick() {
+        if(approach == 1) {
+            while(true) {
+                int val = rand() % n;
+                if(hash_set.find(val) == hash_set.end()) {
+                    return val;
+                }
+            }
+        }
+        else {
+            int idx = rand() % whitelist.size();
+            return whitelist[idx];
+        }
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(n, blacklist);
+ * int param_1 = obj->pick();
+ */
