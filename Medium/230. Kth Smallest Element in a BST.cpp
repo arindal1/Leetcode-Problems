@@ -9,19 +9,18 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
 public:
-    void postorder(TreeNode *root,vector<int>& ans)
-   {
-        if(root==NULL) return;
-        postorder(root->left,ans);
-        postorder(root->right,ans);
-        ans.push_back(root->val);
-   }
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int>ans;
-        postorder(root,ans);
-        return ans;
+    void preOrderTraversal(TreeNode* root, vector<int> &v){
+        if(root == NULL)    return;
+        v.push_back(root->val);
+        preOrderTraversal(root->left, v);
+        preOrderTraversal(root->right, v);      
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        vector<int> v; 
+        preOrderTraversal(root, v);
+        sort(v.begin(), v.end());
+        return v[k-1];
     }
 };
