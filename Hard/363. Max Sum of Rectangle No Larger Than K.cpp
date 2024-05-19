@@ -1,4 +1,6 @@
-int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
     if (matrix.empty()) return 0;
     int row = matrix.size(), col = matrix[0].size(), res = INT_MIN;
     for (int l = 0; l < col; ++l) {
@@ -21,3 +23,4 @@ int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
     }
     return res;
 }
+};
